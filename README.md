@@ -26,3 +26,7 @@ To provide an easy, cross-platform way to keep your desktop fresh with stunning 
 - Add a line to run the script at a specific time (@daily recommended, runs once at 12:00AM):
 `@daily \path\to\python3 \path\to\script.py`
 - Write the changes to crontab editor and exit (Ctrl+O, Ctrl+X)
+
+> **Disclaimer**
+DO NOT USE THIS MORE THAN NEEDED, UNLESS YOU USE YOUR OWN API KEY.
+THERE IS A DAILY USAGE LIMIT FOR THE DEMO KEY PROVIDED IN THE CODE.

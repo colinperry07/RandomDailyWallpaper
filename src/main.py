@@ -9,24 +9,29 @@ import subprocess
 
 
 def get_image_url():
-    api_key = "DEMO_KEY"
-    url = f"https://api.nasa.gov/planetary/apod?api_key={api_key}"
+    try:
+        api_key = "DEMO_KEY"
+        url = f"https://api.nasa.gov/planetary/apod?api_key={api_key}"
 
-    response = urllib.request.urlopen(url)
-    data = json.loads(response.read().decode())
+        response = urllib.request.urlopen(url)
+        data = json.loads(response.read().decode())
 
-    if data["media_type"] != "image":
-        raise Exception("APOD is not an image today.")
+        if data["media_type"] != "image":
+            raise Exception("APOD is not an image today.")
 
-    image_url = data["hdurl"] if "hdurl" in data else data["url"]
-    image_title = re.sub(r'[\\/*?:"<>|]', "", data["title"])
-    image_title = image_title.replace(" ", "_")
-    filename = f"{datetime.date.today()}_{image_title}.jpg"
+        image_url = data["hdurl"] if "hdurl" in data else data["url"]
+        image_title = re.sub(r'[\\/*?:"<>|]', "", data["title"])
+        image_title = image_title.replace(" ", "_")
+        filename = f"{datetime.date.today()}_{image_title}.jpg"
 
-    with urllib.request.urlopen(image_url) as response, open(filename, "wb") as f:
-        f.write(response.read())
+        with urllib.request.urlopen(image_url) as response, open(filename, "wb") as f:
+            f.write(response.read())
 
-    return filename
+        return filename
+
+    except Exception as e:
+        print(f"Error fetching APOD: {e}")
+        return None
 
 
 def change_wallpaper(image_path):
@@ -99,7 +104,8 @@ def change_wallpaper(image_path):
 
 def main():
     image = get_image_url()
-    change_wallpaper(image)
+    if image is not None:
+        change_wallpaper(image)
 
 
 if __name__ == "__main__":

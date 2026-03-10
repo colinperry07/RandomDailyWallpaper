@@ -8,6 +8,9 @@ To provide an easy, cross-platform way to keep your desktop fresh with stunning 
 
 ## How to run it
 
+- Clone the repository to a folder of choice:
+`git clone https://github.com/colinperry07/RandomDailyWallpaper`
+
 ### Windows
 - Open **Task Scheduler** and click **Create Task**
 - In the **General** tab, give your task a name (i.e. WallpaperChanger)

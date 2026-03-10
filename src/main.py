@@ -18,7 +18,7 @@ def get_image_url():
     if data["media_type"] != "image":
         raise Exception("APOD is not an image today.")
 
-    image_url = data.get["hdurl"] or data.get["url"]
+    image_url = data["hdurl"] if "hdurl" in data else data["url"]
     image_title = re.sub(r'[\\/*?:"<>|]', "", data["title"])
     image_title = image_title.replace(" ", "_")
     filename = f"{datetime.date.today()}_{image_title}.jpg"

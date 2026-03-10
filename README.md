@@ -28,5 +28,5 @@ To provide an easy, cross-platform way to keep your desktop fresh with stunning 
 - Write the changes to crontab editor and exit (Ctrl+O, Ctrl+X)
 
 > **Disclaimer**
-DO NOT USE THIS MORE THAN NEEDED, UNLESS YOU USE YOUR OWN API KEY.
-THERE IS A DAILY USAGE LIMIT FOR THE DEMO KEY PROVIDED IN THE CODE.
+DO NOT USE THIS MORE THAN NEEDED.  
+UNLESS YOU USE YOUR OWN API KEY, THERE IS A DAILY USAGE LIMIT FOR THE DEMO KEY PROVIDED IN THE CODE.

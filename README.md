@@ -58,7 +58,7 @@ To provide an easy, cross-platform way to keep your desktop fresh with stunning 
 *We are going to use anacron to ensure the task is run regardless of the device's sleep state*
 - Enter the /etc/cron.daily directory and run a terminal
 - Use the following command to create a shell script:
-`sudo nano daily-wallpaper` *(you can name it whatever you'd like, just ensure it doesnt have a suffix (i.e. ".sh)")*  
+`sudo nano daily-wallpaper` *(you can name it whatever you'd like, just ensure it doesnt have a suffix (i.e. ".sh"))*  
 - You should see an empty text editor, enter the following:
 `#! /bin/sh`  
 `python3 /path/to/your/script.py`  

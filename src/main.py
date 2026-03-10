@@ -95,7 +95,7 @@ def change_wallpaper(image_path):
                         ],
                         check=False,
                     )
-                case _ if "cinnamon" in environment:
+                case "x-cinnamon":
                     subprocess.run(
                         [
                             "gsettings",

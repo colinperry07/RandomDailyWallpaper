@@ -5,6 +5,7 @@ import json
 import datetime
 import platform
 import re
+import subprocess
 
 
 def get_image_url():
@@ -14,20 +15,23 @@ def get_image_url():
     response = urllib.request.urlopen(url)
     data = json.loads(response.read().decode())
 
-    if data != "image":
-        raise Exception("AOPD is not an image today.")
+    if data["media_type"] != "image":
+        raise Exception("APOD is not an image today.")
 
-    image_url = data["hdurl"] if "hdurl" in data else data["url"]
-    image_title = re.sub(r'\\/*?:"<>|]', "", data["title"])
+    image_url = data.get["hdurl"] or data.get["url"]
+    image_title = re.sub(r'[\\/*?:"<>|]', "", data["title"])
     image_title = image_title.replace(" ", "_")
     filename = f"{datetime.date.today()}_{image_title}.jpg"
 
-    urllib.request.urlretrieve(image_url, filename)
+    with urllib.request.urlopen(image_url) as response, open(filename, "wb") as f:
+        f.write(response.read())
 
     return filename
 
 
 def change_wallpaper(image_path):
+
+    image_path = os.path.abspath(image_path)
 
     if platform.system() == "Windows":
         SPI_SETDESKWALLPAPER = 0x0014
@@ -40,26 +44,56 @@ def change_wallpaper(image_path):
         os.system(script)
 
     elif platform.system() == "Linux":
-        environment = os.environ.get("XDG_CURRENT_DESKTOP").lower()
-        
-        image_path = os.path.abspath(image_path)
+        environment = (os.environ.get("XDG_CURRENT_DESKTOP") or "").lower()
 
         if "kde" in environment:
-            os.system(f"plasma-apply-wallpaperimage {image_path}")
+            subprocess.run(
+                ["plasma-apply-wallpaperimage", f"{image_path}"], check=False
+            )
         elif "xfce" in environment:
-            os.system(
-                f"xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s {image_path}"
+            subprocess.run(
+                [
+                    "xfconf-query",
+                    "-c",
+                    "xfce4-desktop",
+                    "-p",
+                    "/backdrop/screen0/monitor0/workspace0/last-image",
+                    "-s",
+                    f"{image_path}",
+                ],
+                check=False,
             )
         elif "gnome" in environment:
-            os.system(
-                f"gsettings set org.gnome.desktop.background picture-uri file://{image_path}"
+            subprocess.run(
+                [
+                    "gsettings",
+                    "set",
+                    "org.gnome.desktop.background",
+                    "picture-uri",
+                    f"file://{image_path}",
+                ],
+                check=False,
             )
-            os.system(
-                f'gsettings set org.gnome.desktop.background picture-uri-dark "file://{image_path}"'
+            subprocess.run(
+                [
+                    "gsettings",
+                    "set",
+                    "org.gnome.desktop.background",
+                    "picture-uri-dark",
+                    f"file://{image_path}",
+                ],
+                check=False,
             )
         elif "cinnamon" in environment:
-            os.system(
-                f"gsettings set org.cinnamon.desktop.background picture-uri file://{image_path}"
+            subprocess.run(
+                [
+                    "gsettings",
+                    "set",
+                    "org.cinnamon.desktop.background",
+                    "picture-uri",
+                    f"file://{image_path}",
+                ],
+                check=False,
             )
 
 

@@ -62,6 +62,7 @@ Description=Task Name
 
 [Service]
 ExecStart=/path/to/python /path/to/script.py
+Type=oneshot
 ```
 - Create a timer file in the same directory
 ```ini
@@ -74,6 +75,14 @@ Persistent=true
 
 [Install]
 WantedBy=timers.target
+```
+- Reload system to recognize new files:
+```bash
+sudo systemctl daemon-reload
+```
+- Enable the timer so it starts on boot:
+```bash
+sudo systemctl enable timer-file.timer
 ```
 
 > **DISCLAIMER**

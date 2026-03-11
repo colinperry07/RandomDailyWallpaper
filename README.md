@@ -55,21 +55,27 @@ To provide an easy, cross-platform way to keep your desktop fresh with stunning 
 `launchctl load ~/Library/LaunchAgents/com.user.wallpaper.plist`
 
 ### Linux
-*We are going to use anacron to ensure the task is run regardless of the device's sleep state*
-- Enter the /etc/cron.daily directory and run a terminal
-- Use the following command to create a shell script:
-`sudo nano daily-wallpaper` *(you can name it whatever you'd like, just ensure it doesnt have a suffix (i.e. ".sh"))*  
-- You should see an empty text editor, enter the following:
-`#! /bin/sh`  
-`python3 /path/to/your/script.py`  
-- Write out your changes (Ctrl+O) and exit the editor (Ctrl+X)
-- Ensure the script is executable with this command:
-`sudo chmod +x daily-wallpaper` *(or whatever you named the file)*  
+- Create a service file in /etc/systemd/system:
+```ini
+[Unit]
+Description=Task Name
 
+[Service]
+ExecStart=/path/to/python /path/to/script.py
+```
+- Create a timer file in the same directory
+```ini
+[Unit]
+Description=Runs Task Name
 
-> Your wallpaper should now change every day,   
-> please allow ~5 minutes to run after starting your computer if the wallpaper isn't already changed
+[Timer]
+OnCalendar=daily
+Persistent=true
 
-> **Disclaimer**
-DO NOT USE THIS MORE THAN NEEDED.  
-UNLESS YOU USE YOUR OWN API KEY, THERE IS A DAILY USAGE LIMIT FOR THE DEMO KEY PROVIDED IN THE CODE.
+[Install]
+WantedBy=timers.target
+```
+
+> **DISCLAIMER**
+THE API KEY PROVIDED IN THE CODE CAN ONLY REQUEST 30 TIMES PER DAY
+ANYTHING FURTHER WILL THROW AN ERROR

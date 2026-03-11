@@ -54,58 +54,49 @@ def change_wallpaper(image_path):
             os.system(script)
         case "Linux":
             environment = (os.environ.get("XDG_CURRENT_DESKTOP") or "").lower()
+            print(environment)
 
-            match environment:
-                case _ if "kde" in environment:
-                    subprocess.run(
-                        ["plasma-apply-wallpaperimage", f"{image_path}"], check=False
-                    )
-                case _ if "xfce" in environment:
-                    subprocess.run(
-                        [
-                            "xfconf-query",
-                            "-c",
-                            "xfce4-desktop",
-                            "-p",
-                            "/backdrop/screen0/monitor0/workspace0/last-image",
-                            "-s",
-                            f"{image_path}",
-                        ],
-                        check=False,
-                    )
-                case _ if "gnome" in environment:
-                    subprocess.run(
-                        [
-                            "gsettings",
-                            "set",
-                            "org.gnome.desktop.background",
-                            "picture-uri",
-                            f"file://{image_path}",
-                        ],
-                        check=False,
-                    )
-                    # Keep GNOME light/dark backgrounds in sync.
-                    subprocess.run(
-                        [
-                            "gsettings",
-                            "set",
-                            "org.gnome.desktop.background",
-                            "picture-uri-dark",
-                            f"file://{image_path}",
-                        ],
-                        check=False,
-                    )
-                case "x-cinnamon":
-                    subprocess.run(
-                        [
-                            "gsettings",
-                            "set",
-                            "org.cinnamon.desktop.background",
-                            "picture-uri",
-                            f"file://{image_path}",
-                        ],
-                        check=False,
-                    )
+            if "kde" in environment:
+                subprocess.run(
+                    ["plasma-apply-wallpaperimage", f"{image_path}"], check=False
+                )
+            elif "xfce" in environment:
+                subprocess.run(
+                    [
+                        "xfconf-query",
+                        "-c",
+                        "xfce4-desktop",
+                        "-p",
+                        "/backdrop/screen0/monitor0/workspace0/last-image",
+                        "-s",
+                        f"{image_path}",
+                    ],
+                    check=False,
+                )
+            elif "gnome" in environment:
+                subprocess.run(
+                    [
+                        "gsettings",
+                        "set",
+                        "org.gnome.desktop.background",
+                        "picture-uri",
+                        f"file://{image_path}",
+                    ],
+                    check=False,
+                )
+                # Keep GNOME light/dark backgrounds in sync.
+                subprocess.run(
+                    [
+                        "gsettings",
+                        "set",
+                        "org.gnome.desktop.background",
+                        "picture-uri-dark",
+                        f"file://{image_path}",
+                    ],
+                    check=False,
+                )
+            else:
+                raise Exception("Linux environment not supported")
 
 
 def main():

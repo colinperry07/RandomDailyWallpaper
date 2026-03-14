@@ -25,7 +25,9 @@ To provide an easy, cross-platform way to keep your desktop fresh with stunning 
 - Create a .plist file in your LaunchAgents folder like this:
 `~/Library/LaunchAgents/com.user.wallpaper.plist`  
 - Put this inside the file:
-```<?xml version="1.0" encoding="UTF-8"?>
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -51,12 +53,25 @@ To provide an easy, cross-platform way to keep your desktop fresh with stunning 
 </dict>
 </plist>
 ```
+
 - Save and load it:
 `launchctl load ~/Library/LaunchAgents/com.user.wallpaper.plist`
 
 ### Linux
-- Create a service file in /etc/systemd/system:
-```service-file.service
+- Create a service file in your system directory like so:
+
+```bash
+cd /etc/systemd/system/
+sudo touch service-file.service
+```
+
+- Open the and edit the service file *(adjust variable names accordingly)*:
+
+```bash
+sudo nano service-file.service
+```
+
+```ini
 [Unit]
 Description=Task Name
 
@@ -64,8 +79,18 @@ Description=Task Name
 ExecStart=/path/to/python /path/to/script.py
 Type=oneshot
 ```
-- Create a timer file in the same directory
-```timer-file.timer
+
+- Write your changes and exit *(Ctrl+O to write)* *(Ctrl+X to exit)*
+
+- Create a timer file in the same directory:
+
+```bash
+sudo touch timer-file.timer
+```
+
+- Open and edit the timer file:
+
+```ini
 [Unit]
 Description=Runs Task Name
 
@@ -77,15 +102,23 @@ Unit=service-file.service
 [Install]
 WantedBy=timers.target
 ```
+
+- Write your changes and exit
+
 - Reload system to recognize new files:
+
 ```bash
 sudo systemctl daemon-reload
 ```
-- Enable the timer so it starts on boot:
+
+- Enable the timer so it starts on next boot:
+
 ```bash
 sudo systemctl enable timer-file.timer
 ```
 
 > **DISCLAIMER**
-THE API KEY PROVIDED IN THE CODE CAN ONLY REQUEST 30 TIMES PER DAY
+THE DEMO API KEY PROVIDED IN THE CODE CAN ONLY REQUEST 30 TIMES PER DAY
 ANYTHING FURTHER WILL THROW AN ERROR
+IF YOU WISH TO USE IT BEYOND THAT, GO TO THE NASA APOD SITE AND REGISTER 
+TO GET YOUR OWN API KEY

@@ -56,7 +56,7 @@ To provide an easy, cross-platform way to keep your desktop fresh with stunning 
 
 ### Linux
 - Create a service file in /etc/systemd/system:
-```ini
+```service-file.service
 [Unit]
 Description=Task Name
 
@@ -65,14 +65,14 @@ ExecStart=/path/to/python /path/to/script.py
 Type=oneshot
 ```
 - Create a timer file in the same directory
-```ini
+```timer-file.timer
 [Unit]
 Description=Runs Task Name
 
 [Timer]
 OnCalendar=daily
 Persistent=true
-Unit=service_file.service
+Unit=service-file.service
 
 [Install]
 WantedBy=timers.target

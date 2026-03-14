@@ -72,6 +72,7 @@ Description=Runs Task Name
 [Timer]
 OnCalendar=daily
 Persistent=true
+Unit=service_file.service
 
 [Install]
 WantedBy=timers.target
